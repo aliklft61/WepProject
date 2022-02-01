@@ -1,0 +1,21 @@
+{
+  "name": "itserviceapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^31.1.0",
+    "ckeditor": "^4.12.1",
+    "devextreme": "^21.2.4",
+    "devextreme-aspnet-data": "^2.8.6",
+    "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
+    "jquery": "^3.6.0",
+    "jszip": "^3.7.1"
+  }
+}

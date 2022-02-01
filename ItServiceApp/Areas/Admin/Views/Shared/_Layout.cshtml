@@ -1,0 +1,77 @@
+﻿@using ItServiceApp.Extensions
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/admin-assets/images/favicon.ico">
+    <link rel="stylesheet" href="~/admin-assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/admin-assets/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="~/admin-assets/css/icons.min.css">
+    <link rel="stylesheet" href="~/admin-assets/css/metisMenu.min.css">
+    <link rel="stylesheet" href="~/admin-assets/css/app.min.css">
+
+
+    @await RenderSectionAsync("styles", false)
+</head>
+
+<body>
+    <!-- leftbar-tab-menu -->
+    <partial name="Patials/_leftbar-tab-menu" />
+    <!-- end leftbar-tab-menu-->
+    <!-- Top Bar Start -->
+    <partial name="Patials/_top-bar" />
+    <!-- Top Bar End -->
+
+    <div class="page-wrapper">
+        <!-- Page Content-->
+        <div class="page-content-tab">
+            <!-- main container -->
+            @if(TempData["message"]!=null)
+            {
+                <partial name="Patials/_ResultMessage" model="@(TempData.Get<AlertMessage>("message"))"/>
+            }   
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+            <!-- end container -->
+            <!-- right bar -->
+            <partial name="Patials/_right-bar" />
+            <!-- end right bar -->
+            <!--footer-->
+            <partial name="Patials/_footer" />
+            <!--end footer-->
+        </div>
+        <!-- end page content -->
+    </div>
+    <!-- end page-wrapper -->
+
+    <script src="~/admin-assets/js/jquery.min.js"></script>
+    <script src="~/admin-assets/js/jquery-ui.min.js"></script>
+    <script src="~/admin-assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/admin-assets/js/metismenu.min.js"></script>
+    <script src="~/admin-assets/js/waves.js"></script>
+    <script src="~/admin-assets/js/feather.min.js"></script>
+    <script src="~/admin-assets/js/jquery.slimscroll.min.js"></script>
+    <script src="~/admin-assets/plugins/apexcharts/apexcharts.min.js"></script>
+    <script src="~/admin-assets/js/app.js"></script>
+
+    <script type="text/javascript" src="~/vendor/jszip/dist/jszip.min.js"></script>
+    <script type="text/javascript" src="~/vendor/exceljs/dist/exceljs.min.js"></script>
+    <script type="text/javascript" src="~/vendor/file-saver/dist/FileSaver.min.js"></script>
+    <script type="text/javascript" src="~/vendor/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/vendor/devextreme/dist/js/dx.all.js"></script>
+    @*<script type="text/javascript" src="~vendor/devextreme-aspnet-data/js/dx.aspnet.data.js"></script>*@
+    
+@await RenderSectionAsync("Scripts", false)
+    <!-- app.js -->
+    
+</body>
+</html>

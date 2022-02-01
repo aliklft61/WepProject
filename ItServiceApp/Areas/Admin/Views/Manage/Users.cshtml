@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "Kullanıcı Listesi";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Metrica</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Pages</a></li>
+                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Starter</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<!-- end page title end breadcrumb -->
+<div class="container-fluid">
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="float-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#">Metrica</a>
+                        </li><!--end nav-item-->
+                        <li class="breadcrumb-item">
+                            <a href="#">CRM</a>
+                        </li><!--end nav-item-->
+                        <li class="breadcrumb-item active">Contacts</li>
+                    </ol>
+                </div>
+            </div><!--end page-title-box-->
+        </div><!--end col-->
+    </div>
+    <!-- end page title end breadcrumb -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h4 class="card-title">Kullanıcı Detayları</h4>
+                        </div><!--end col-->
+                    </div>  <!--end row-->
+                </div><!--end card-header-->
+                <div class="card-body">
+                    <div id="dxGrid"></div>
+                </div><!--end card-body-->
+            </div><!--end card-->
+        </div> <!--end col-->
+    </div><!--end row-->
+
+</div>
+
+@*<partial name="_ViewDevexScript"/>*@
+@section styles
+{
+    <link href="~/vendor/devextreme/dist/css/dx.light.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>*@
+  
+
+
+    <script>
+        var dataGrid = null;
+        $(() => {
+
+            var userData = null;
+
+            $.ajax({
+                url: '@Url.Action("GetUsers", "UserApi")',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response);
+                    if (response.isSuccess) {
+                        userData = response.data;
+                        console.log("deneme");
+                        loadGrid();
+                    } else {
+                        alert(response.errorMessage);
+                    }
+                },
+                error: function(a, b, c) {
+                    console.log(a);
+                    console.log(b);
+                    console.log(c);
+                }
+            });
+
+            function loadGrid() {
+                dataGrid = $('#dxGrid').dxDataGrid({
+                    showColumnLines: true,
+                    allowColumnResizing: true,
+                    showRowLines: true,
+                    rowAlternationEnabled: true,
+                    dataSource: userData,
+                    searchPanel: {
+                        visible: true,
+                        width: 240,
+                        placeholder: "Ara..."
+                    },
+                    filterRow: {
+                        visible: true,
+                        applyFilter: "auto"
+                    },
+                    headerFilter: {
+                        visible: true
+                    },
+                    export: {
+                        enabled: true,
+                        fileName: `Tüm kullanıcılar_${parseInt(Math.random() * 1000000)}`,
+                        allowExportSelectedData: true
+                    },
+                    paging: {
+                        pageSize: 20
+                    },
+                    pager: {
+                        showPageSizeSelector: true,
+                        allowedPageSizes: [5, 15, 30, 45],
+                        showInfo: true
+                    }, selection: {
+                        mode: "multiple"
+                    },
+                    columns: [
+                        {
+                            caption: 'Id',
+                            dataField: "id",
+                            visible: false,
+                            allowFiltering: false
+                        }, {
+                            caption: 'Ad',
+                            dataField: "name"
+
+                        }, {
+                            caption: 'Soyad',
+                            dataField: "surname"
+
+                        }, {
+                            caption: 'E-Posta',
+                            dataField: "email"
+
+                        },{
+                            caption: 'Kayıt Tarihi',
+                            dataField: "createdDate",
+                            dataType: "date",
+                            format: 'dd/MM/yyyy',
+                            sortOrder: "desc"
+                        },{
+                            caption: 'Detay',
+                            cellTemplate: function(container, options) {
+                                /*console.log(options);*/
+                                var current = options.data;
+                                var url = '@Url.Action("UserDetail","Manage")' + '/' + current.id;
+                                /*console.log(url);*/
+                                $("<a href=" + url + "/>")
+                                    .text("Detay")
+                                    .addClass('btn btn-block btn-default btn-sm')
+                                    .appendTo(container);
+                                console.log(container);
+                            }
+
+                        }
+                    ],
+                    showBorders: true
+                }).dxDataGrid("instance");
+            }
+        })
+    </script>
+}

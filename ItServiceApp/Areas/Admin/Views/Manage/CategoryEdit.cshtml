@@ -1,0 +1,168 @@
+﻿@using ItServiceApp.entity
+@model CategoryModel
+
+@section styles {
+    <link href="~/admin-assets/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="~/admin-assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/admin-assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" rel="stylesheet" type="text/css" />
+    <link href="~/admin-assets/plugins/timepicker/bootstrap-material-datetimepicker.css" rel="stylesheet">
+    <link href="~/admin-assets/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+}
+
+<!-- Page-Title -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-title-box">
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">Metrica</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);">UI Kit</a></li>
+                    <li class="breadcrumb-item active">Form Advanced</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Form Advanced</h4>
+        </div><!--end page-title-box-->
+    </div><!--end col-->
+</div>
+<!-- end page title end breadcrumb -->
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Manage" asp-action="CategoryEdit" method="POST">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" name="CategoryId" value="@Model.CategoryId">
+            <div class="form-group row">
+                <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Url" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input class="form-control" asp-for="Url">
+                    <span asp-validation-for="Url" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 offset-sm-2">
+                    <button type="submit" class="btn btn-primary">Save Category</button>
+                </div>
+            </div>
+
+            <div id="products">
+
+                @for (int i = 0; i < Model.Products.Count; i++)
+                {
+                    <input type="hidden" name="Products[@i].ProductId" value="@Model.Products[@i].ProductId">
+                    <input type="hidden" name="Products[@i].ImageUrl" value="@Model.Products[@i].ImageUrl">
+                    <input type="hidden" name="Products[@i].Name" value="@Model.Products[@i].Name">
+                    <input type="hidden" name="Products[@i].Price" value="@Model.Products[@i].Price">
+                    <input type="hidden" name="Products[@i].IsApproved" value="@Model.Products[@i].IsApproved.ToString()">
+                }
+
+            </div>
+
+
+        </form>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <td style="width: 30px;">Id</td>
+                            <td style="width: 100px;">Image</td>
+                            <td>Name</td>
+                            <td style="width: 20px;">Price</td>
+                            <td style="width: 20px;">Onaylı</td>
+                            <td style="width: 150px;"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Products.Count > 0)
+                        {
+                            @foreach (var item in Model.Products)
+                            {
+                                <tr>
+                                    <td>@item.ProductId</td>
+                                    <td><img src="~/user-assets/images/@item.ImageUrl" width="80"></td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Price</td>
+                                    <td>
+                                        @if (item.IsApproved)
+                                        {
+                                            <i class="fas fa-check-circle"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-times-circle"></i>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("ProductEdit","Manage")/@item.ProductId" class="btn btn-primary btn-sm mr-2">Düzenle</a>
+
+                                        <form action="/admin/Manage/DeleteFromCategory" method="POST" style="display: inline;">
+                                            <input type="hidden" name="productId" value="@item.ProductId">
+                                            <input type="hidden" name="categoryId" value="@Model.CategoryId">
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning">
+                                <h3>No Products</h3>
+                            </div>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script src="~/admin-assets/plugins/moment/moment.js"></script>
+    <script src="~/admin-assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/admin-assets/plugins/select2/select2.min.js"></script>
+    <script src="~/admin-assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <script src="~/admin-assets/plugins/timepicker/bootstrap-material-datetimepicker.js"></script>
+    <script src="~/admin-assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="~/admin-assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script>
+
+    <script src="~/admin-assets/js/pages/jquery.forms-advanced.js"></script>
+    <script src="~/vendor/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('textarea')
+    </script>
+    <script>
+        $("#secim").change(function () {
+            var v = $(this).val();
+            console.log(v);
+            $("#CategoryIdEkle").val(v);
+
+        });
+        $("#foto").change(function () {
+            var c = $(this).val();
+            console.log(c);
+            $("#postImageUrl").val(c);
+
+        });
+    </script>
+
+}
+
+
+
