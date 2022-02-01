@@ -22,6 +22,7 @@
 }
 .ss_menuP:hover .ss_subMenu:after{
 	border-bottom-color:#4a617e;
+    height:2px;
 }
 .ss_subMenu {
     background: #4a617e;
