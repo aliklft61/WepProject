@@ -39,4 +39,4 @@ namespace ItServiceApp.Models
         public int Quantity { get; set; }
     }
 }
-}
+
