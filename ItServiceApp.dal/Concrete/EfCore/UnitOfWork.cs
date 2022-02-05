@@ -19,6 +19,7 @@ namespace ItServiceApp.dal.Concrete.EfCore
         private EfCoreCategoryRepository _categoryRepository;
         private EfCoreOrderRepository _orderRepository;
         private EfCoreProductRepository _productRepository;
+        private EFCoreBlogRepository _blogReporisotry;
 
         public ICartRepository Carts =>
             _cartRepository = _cartRepository ?? new EfCoreCartRepository(_context);

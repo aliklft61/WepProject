@@ -12,6 +12,7 @@ namespace ItServiceApp.dal.Abstract
         ICategoryRepository Categories { get; }
         IOrderRepository Orders { get; }
         IProductRepository Products { get; }
+        IBlogRepository Blogs { get; }
         void Save();
         Task<int> SaveAsync();
     }

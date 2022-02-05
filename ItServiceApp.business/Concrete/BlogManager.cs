@@ -1,59 +1,61 @@
-﻿using System;
+﻿using ItServiceApp.business.Abstract;
+using ItServiceApp.dal.Abstract;
+using ItServiceApp.entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ItServiceApp.business.Abstract;
-using ItServiceApp.dal.Abstract;
-using ItServiceApp.entity;
 
 namespace ItServiceApp.business.Concrete
 {
-    public class ProductManager : IProductService
+    public class BlogManager : IBlogService
     {
-
         private readonly IUnitOfWork _unitofwork;
-        public ProductManager(IUnitOfWork unitofwork)
+        public BlogManager(IUnitOfWork unitofwork)
         {
             _unitofwork = unitofwork;
         }
 
-        public bool Create(Product entity)
+        public bool Create(Blog entity)
         {
             if (Validation(entity))
             {
-                _unitofwork.Products.Create(entity);
+                _unitofwork.Blog.Create(entity);
                 _unitofwork.Save();
                 return true;
             }
             return false;
         }
 
-        public async Task<Product> CreateAsync(Product entity)
+        public async Task<Blog> CreateAsync(Blog entity)
         {
-            await _unitofwork.Products.CreateAsync(entity);
+            await _unitofwork.Blogs.CreateAsync(entity);
             await _unitofwork.SaveAsync();
             return entity;
         }
 
-        public void Delete(Product entity)
+        public void Delete(Blog entity)
         {
             // iş kuralları
-            _unitofwork.Products.Delete(entity);
+            _unitofwork.Blogs.Delete(entity);
             _unitofwork.Save();
         }
 
-        public async Task<List<Product>> GetAll()
+        public async Task<List<Blog>> GetAll()
         {
-            return await _unitofwork.Products.GetAll();
+            return await _unitofwork.Blogs.GetAll();
         }
 
-        public async Task<Product> GetById(int id)
+        public async Task<Blog> GetById(int id)
         {
-            return await _unitofwork.Products.GetById(id);
+            return await _unitofwork.Blogs.GetById(id);
         }
 
-        public Product GetByIdWithCategories(int id) => _unitofwork.Products.GetByIdWithCategories(id);
+        public Blog GetByIdWithCategories(int id)
+        {
+            return _unitofwork.Products.GetByIdWithCategories(id);
+        }
 
         public int GetCountByCategory(string category)
         {
@@ -140,8 +142,49 @@ namespace ItServiceApp.business.Concrete
 
         public async Task<Product> GetByName(string name)
         {
-           return await _unitofwork.Products.GetByName(name);
-            
+            return await _unitofwork.Products.GetByName(name);
+
+        }
+
+        public void Delete(Product entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(Blog entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Blog GetBlogDetails(string url)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Blog> IBlogService.GetByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Blog> GetHomePageBlog()
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Blog> IBlogService.GetSearchResult(string searchString)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(Blog entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Blog entityToUpdate, Blog entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
+

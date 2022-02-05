@@ -10,8 +10,8 @@ namespace ItServiceApp.dal.Abstract
     public interface IProductRepository : IRepository<Product>
     {
         Task<Product> GetByName(string name);
-        Product GetProductDetails(string url);
-        Product GetByIdWithCategories(int id);
+        Blog GetProductDetails(string url);
+        Blog GetByIdWithCategories(int id);
         List<Product> GetProductsByCategory(string name, int page, int pageSize);
         List<Product> GetSearchResult(string searchString);
         List<Product> GetHomePageProducts();

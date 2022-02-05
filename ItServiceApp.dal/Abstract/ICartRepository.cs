@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ItServiceApp.dal.Abstract
 {
-    public class ICartRepository
+    public interface ICartRepository
     {
         Cart GetByUserId(string userId);
         void DeleteFromCart(int cartId, int productId);
